@@ -1,0 +1,80 @@
+---
+title: "Create a GitHub repository"
+author: "Pete Nelson"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+[Copied with minor modifications from happygitwithr.com.]
+
+We create a new Project, with the preferred “GitHub first, then RStudio” sequence. Why do we prefer this? Because this method of copying the Project from GitHub to your computer also sets up the local Git repository for immediate pulling and pushing. Under the hood, we are doing git clone.
+
+You’ve actually done this before during set up (chapter 12). We’re doing it again, with feeling.
+
+The workflow is pretty similar for other repository managers like GitLab or Bitbucket. We will specify below when you may need to do something differently.
+
+Make a repo on GitHub
+Go to https://github.com and make sure you are logged in.
+
+Near “Repositories”, click the big green “New” button. Or, if you are on your own profile page, click on “Repositories”, then click the big green “New” button.
+
+How to fill this in:
+
+Repository template: No template.
+Repository name: myrepo or whatever you wish to name your new project. Approach this similar to a variable name, in code: descriptive but brief, no whitespace. Letters, digits, -, ., or _ are allowed.
+Description: “Analysis of the stuff” or any short description of the project. Write this for humans.
+Public.
+Initialize this repository with: Add a README file.
+Click the big green button that says “Create repository”.
+
+Now click the big green button that says “<> Code”.
+
+Copy a clone URL to your clipboard. If you’re taking our default advice, copy the HTTPS URL. But if you’re opting for SSH, then make sure to copy the SSH URL.
+
+![image](files:\\C:\Users\pnelson\Desktop\github-https-or-ssh-url-annotated.png)
+
+New RStudio Project via git clone
+
+I present two ways to do this:
+
+usethis::create_from_github()
+Via the RStudio IDE
+(Recall that we showed how to do this with command line Git in chapter 11.)
+
+When you are cloning your own GitHub repository, the two methods are equivalent. In other scenarios, especially fork-and-clone (chapter 31), I think usethis::create_from_github() is superior, because it does additional, recommended setup.
+
+Pick one of these methods below.
+
+15.2.1 usethis::create_from_github()
+You can execute this command in any R session. If you use RStudio, then do this in the R console of any RStudio instance.
+
+```{}
+usethis::create_from_github(
+  "https://github.com/Pete-Nelson/test_repository.git",
+  destdir = "G:/My Drive/GitHub Gdrive Projects/"
+)
+```
+The first argument is repo_spec and it accepts the GitHub repo specification in various forms. In particular, you can use the URL we just copied from GitHub.
+
+The destdir argument specifies the parent directory where you want the new folder (and local Git repo) to live. If you don’t specify destdir, usethis defaults to some very conspicuous place, like your desktop. If you like to keep Git repos in a certain folder on your computer, you can personalize this default by setting the usethis.destdir option in your .Rprofile.
+
+We’re accepting the default behaviour of two other arguments, rstudio and open, because that’s what most people will want. For example, for an RStudio user, create_from_github() does this:
+
+Creates a new local directory in destdir, which is all of these things:
+a directory or folder on your computer
+a Git repository, linked to a remote GitHub repository
+an RStudio Project
+Opens a new RStudio instance in the new Project
+In the absence of other constraints, I suggest that all of your R projects have exactly this set-up.
+
+git remote -v or git remote --verbose shows the remotes you have setup. Here’s how that looks for someone using HTTPS with GitHub and calling it origin:
+
+```{}
+~/tmp/myrepo % git remote -v
+```
